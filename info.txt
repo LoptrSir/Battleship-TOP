@@ -1,0 +1,13 @@
+TOP Battleship project
+The intent is to work on testing using Jest.
+
+9/10/24 1109 
+classes Ship, Gameboard, Player built.
+initializeGame() manages creation of each player and both boards, putting it in a function allows Jest to function. myFooter() moved to domManipulation.js keeps jest happy.
+Built Tests: 
+mocking myFooter() prevents error
+Ship-   testing each constructor (true) passes.
+        built basic tests for each function that passes or fails based on basic return.  Need to build functions logic.
+Gameboard- testing each constructor (true) passes. (piecesGrid, attackGrid, playerSunkShipCount, OpponentSunkShipCount)
+        functions have basic tests build. need to build logic.
+Player- Constructor testing passes. (names,ships,score)

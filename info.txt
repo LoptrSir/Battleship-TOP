@@ -1,6 +1,9 @@
 TOP Battleship project
 The intent is to work on testing using Jest.
 
+9/24 1332: restarting code. It started to experience function bloat.  working on more streamlined approach.
+copiedXXX.ts are files from another project I'm using for better understanding my process.
+rebuild ships.js, gameBoard.js, and the relevant tests.
 9/10/24 1109 
 classes Ship, Gameboard, Player built.
 initializeGame() manages creation of each player and both boards, putting it in a function allows Jest to function. myFooter() moved to domManipulation.js keeps jest happy.

@@ -1,6 +1,7 @@
 TOP Battleship project
 The intent is to work on testing using Jest.
 
+9/25 1301: built multiple functioning tests for Ship and Gameboard.  placeShip() is now built too.
 9/24 1332: restarting code. It started to experience function bloat.  working on more streamlined approach.
 copiedXXX.ts are files from another project I'm using for better understanding my process.
 rebuild ships.js, gameBoard.js, and the relevant tests.

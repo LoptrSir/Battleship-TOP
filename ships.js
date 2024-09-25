@@ -2,47 +2,60 @@
 //ships.js
 
 export const shipsData = [
-    { ship: "Carrier", size: 5 },
-    { ship: "Battleship", size: 4 },
-    { ship: "Cruiser", size: 3 },
-    { ship: "Submarine", size: 3 },
-    { ship: "Destroyer", size: 2 },
+    { name: "Carrier", size: 5 },
+    { name: "Battleship", size: 4 },
+    { name: "Cruiser", size: 3 },
+    { name: "Submarine", size: 3 },
+    { name: "Destroyer", size: 2 },
   ];
 
 export class Ship {
-  constructor(name, size, orientation) {
+   constructor(name, size, orientation) {
+    //constructor(name, size) {
     this.name = name;
     this.size = size;
-    this.orientation = orientation;
+    // this.orientation = orientation;
+    this.setOrientation(orientation);
     this.hitCounter = 0;
     this.isSunk = false;
-    //declare vertical/horizontal?
   }
 
-  getName() {
+  getName() { //*
     return this.name;
   }
 
-  getSize() {
+  getSize() { //*
     return this.size;
   }
 
-  isVertical() {
+  setOrientation(orientation){
+    // this.orientation = orientation === 'vertical' ?  'vertical' : 'horizontal';
+    if (orientation === 'horizontal' || orientation === 'vertical') {
+      this.orientation = orientation;
+      return this.orientation;
+    } else {
+      //throw new Error('Invalid orientation');
+      //insert code to address bad input
+
+    }
+  }
+
+  getIsVertical() { //*
     return this.orientation === "vertical";
   }
 
-  hitCount() {
+  getHitCounter() { //*
     return this.hitCounter;
   }
 
   increaseHitCount() {
-    this.hitCount++;
-    if (this.hitCount >= this.size) {
+    this.hitCounter++;
+    if (this.hitCounter >= this.size) {
       this.isSunk = true;
     }
   }
 
-  isSank() {
+  getIsSunk() { //*
 //build logic for announcing ship is sunk and checking for win.
     return this.isSunk;
   }

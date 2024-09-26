@@ -1,6 +1,7 @@
 TOP Battleship project
 The intent is to work on testing using Jest.
 
+9/26 : built several more Gameboard tests. Merged multiple similar tests into a single test with multiple expects. got Ship this.orientation and setOrientation() working. created this.shipsList to verify a piece has not been placed.  Will likely remove this.ships as it seems redundant to this.board for the purpose of tracking where ships are. created index.js as webpage initializer.
 9/25 1301: built multiple functioning tests for Ship and Gameboard.  placeShip() is now built too.
 9/24 1332: restarting code. It started to experience function bloat.  working on more streamlined approach.
 copiedXXX.ts are files from another project I'm using for better understanding my process.

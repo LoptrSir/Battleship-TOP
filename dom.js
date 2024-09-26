@@ -1,5 +1,7 @@
 //TOP Battleship
+//UI actions/manipulations
 //DOMManipulation.js
+
 
 export function myFooter() {
     const footer = document.querySelector(".footer");

@@ -1,5 +1,6 @@
 //https://github.com/wolftec241/Odin-Battleship/blob/main/src/scripts/EnemyAi.ts
 // Ship class represents a ship in the Battleship game
+//ships.ts
 export class Ship {
     name:string;
     shipLength: number;

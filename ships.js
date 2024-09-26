@@ -2,61 +2,69 @@
 //ships.js
 
 export const shipsData = [
-    { name: "Carrier", size: 5 },
-    { name: "Battleship", size: 4 },
-    { name: "Cruiser", size: 3 },
-    { name: "Submarine", size: 3 },
-    { name: "Destroyer", size: 2 },
-  ];
+  { name: "Carrier", size: 5 },
+  { name: "Battleship", size: 4 },
+  { name: "Cruiser", size: 3 },
+  { name: "Submarine", size: 3 },
+  { name: "Destroyer", size: 2 },
+];
 
 export class Ship {
-   constructor(name, size, orientation) {
-    //constructor(name, size) {
+  constructor(name, size, orientation) {
     this.name = name;
     this.size = size;
-    // this.orientation = orientation;
     this.setOrientation(orientation);
     this.hitCounter = 0;
     this.isSunk = false;
   }
 
-  getName() { //*
+  getName() {
+    //*Jest works
     return this.name;
   }
 
-  getSize() { //*
+  getSize() {
+    //*Jest works
     return this.size;
   }
 
-  setOrientation(orientation){
+  setOrientation(orientation) {
+    //*Jest works
     // this.orientation = orientation === 'vertical' ?  'vertical' : 'horizontal';
-    if (orientation === 'horizontal' || orientation === 'vertical') {
+    if (orientation !== "horizontal" && orientation !== "vertical") {
+      throw new Error(
+        `${orientation} is invalid. Select 'horizontal' of 'vertical'`
+      );
+    } else {
       this.orientation = orientation;
       return this.orientation;
-    } else {
-      //throw new Error('Invalid orientation');
-      //insert code to address bad input
-
     }
   }
 
-  getIsVertical() { //*
-    return this.orientation === "vertical";
-  }
-
-  getHitCounter() { //*
+  getHitCounter() {
+    //*Jest works
     return this.hitCounter;
   }
 
+  getIsSunk() {
+    //*Jest works
+    //build logic for announcing ship is sunk and checking for win.
+    //insert logic to test it all ships sunk?
+    return this.isSunk;
+  }
+
+  getIsVertical() {
+    //*Jest works
+    return this.orientation === "vertical";
+  }
+
+    //this function probably belongs in gameboard/gameplay
   increaseHitCount() {
+    //*Jest works
     this.hitCounter++;
     if (this.hitCounter >= this.size) {
       this.isSunk = true;
     }
-  }
-
-  getIsSunk() { //*
-//build logic for announcing ship is sunk and checking for win.
-    return this.isSunk;
+    //insert logic to check is (gameBoard.sunkShips <= 5) if true announce win
   }
 }

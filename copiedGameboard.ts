@@ -1,4 +1,5 @@
 //https://github.com/wolftec241/Odin-Battleship/blob/main/src/scripts/EnemyAi.ts
+//gameboard.ts
 import { Ship } from './Ship'
 
 // Gameboard class represents the game board for a player

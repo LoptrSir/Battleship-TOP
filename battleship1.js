@@ -3,7 +3,7 @@
 //battleship.js
 
 //imports
-import { myFooter } from "./domManipulation.js";
+import { myFooter } from "./dom.js";
 
 //Declarations
 

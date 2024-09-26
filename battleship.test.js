@@ -2,7 +2,7 @@
 //tests.js
 
 //prevents jest from throwing error on myFooter call.
-jest.mock("./domManipulation.js", () => ({
+jest.mock("./dom.js", () => ({
   myFooter: jest.fn(), // Mock myFooter()
 }));
 
@@ -25,30 +25,33 @@ it("testShip getName", () => {
 it("testShip getSize", () => {
   expect(testShip.getSize()).toBe(4);
 });
-it("testShip hitCount", () => {
+it('testShip orientation', () => {
+  expect(testShip.orientation).toBe('vertical');
+})
+it('testShip setOrientation change to HORIZONTAL', () => {
+  expect(testShip.setOrientation('horizontal')).toBe('horizontal');
+})
+it("testShip hitCount and Increase hitCount", () => {
   expect(testShip.getHitCounter()).toBe(0);
-});
-it("testShip isSunk", () => {
-  expect(testShip.getIsSunk()).toBe(false);
+  testShip.increaseHitCount();
+  testShip.increaseHitCount();
+  expect(testShip.getHitCounter()).toBe(2);
 });
 
-//can 
-it("isSunk: TRUE", () => {
-  //testShip.sunkShips = true;
+it("testShip isSunk base and modified", () => {
+  expect(testShip.getIsSunk()).toBe(false);
   testShip.increaseHitCount();
   testShip.increaseHitCount();
   testShip.increaseHitCount();
   testShip.increaseHitCount();
   expect(testShip.getIsSunk()).toBe(true);
-}); 
+});
 
-it('getIsVertical VERTICAL', () => {
+
+it('testShip getIsVertical VERTICAL True and False', () => {
   expect(testShip.getIsVertical()).toBe(true);
 })
 
-it('setOrientation HORIZONTAL', () => {
-  expect(testShip.setOrientation('horizontal')).toBe('horizontal');
-})
 
 //^^^  build logic to support these tests  ^^^
 // it("isHit", () => {
@@ -72,11 +75,13 @@ beforeEach(() => {
   testBoard = new Gameboard();
 });
 
-it('buildGrid with null values', () => {
+it('testBoard getName', () => {
+  expect(testBoard.getName()).toBe(undefined); //modify to add a name?
+})
+it('testBoard getBoard with null values', () => {
   const expectedGrid = Array(10)
   .fill(null)
   .map(() => Array(10).fill(null));
-
   expect(testBoard.getBoard()).toEqual(expectedGrid);
 
     for (let row of testBoard.getBoard()) {
@@ -85,46 +90,51 @@ it('buildGrid with null values', () => {
     }
   }
 }) 
+//not testing  for this.ships as it will likely be removed
+it('testBoard getShipsList base and modified', () => {
+  expect(testBoard.getShipsList()).toEqual(new Set);
+  testBoard.getShipsList().add('Destroyer')
+  expect(testBoard.getShipsList()).toContain('Destroyer');
+})
 
+it('testBoard getNumberOfShips base and modified', () => {
+  expect(testBoard.getNumberOfShips()).toBe(0)
+  testBoard.numberOfShips =1;
+  expect(testBoard.getNumberOfShips()).toBe(1)
+})
 
-it('getSunkShip', () => {
+it('testBoard getSunkShip base and incremented', () => {
   expect(testBoard.getSunkShips()).toBe(0);
+  testBoard.sunkShips = 1;
+  expect(testBoard.getSunkShips()).toBe(1);
 });
 
-it('isWithinBounds TRUE', () => {
+it('testBoard isWithinBounds TRUE and FALSE', () => {
   expect(testBoard.isWithinBounds(1, 2)).toBe(true);
-})
-it('isWithinBounds FALSE', () => {
   expect(testBoard.isWithinBounds(11, 2)).toBe(false);
 })
 
-it('isCellAvailable TRUE', () => {
+it('testBoard isCellAvailable True/False/OutOfbounds', () => {
   expect(testBoard.isCellAvailable(2, 3)).toBe(true);
-})
-it('isCellAvailable OUTOFBOUNDS', () => {
+  testBoard.board[4][4] = 'testShip';
+  expect(testBoard.isCellAvailable(4, 4)).toBe(false);
   expect(testBoard.isCellAvailable(12, 3)).toBe(false);
 })
-
-it('placeShip; in range', () => {
+// Not testing ChooseShip as this will likely become DOM managed.
+it('testBoard placeShip; in range True and False and test ship proper location', () => {
   expect(testBoard.placeShip(testShip, 1, 1)).toBe(true);
     
   // confirm ship is now placed in the correct cells
   const board = testBoard.getBoard();
-  expect(board[1][1]).toBe(testShip); // Check the starting cell
-  expect(board[1][2]).toBe(testShip); // Check the second cell if vertical
-  expect(board[1][3]).toBe(testShip); // Check the third cell if vertical
-  expect(board[1][4]).toBe(testShip); // Check the fourth cell if vertical
-  //expect(board[1][5]).toBe(testShip); // Check the fifth cell if vertical
+  expect(board[1][1]).toBe(testShip); 
+  expect(board[1][2]).toBe(testShip); 
+  expect(board[1][3]).toBe(testShip); 
+  expect(board[1][4]).toBe(testShip); 
+  expect(testBoard.placeShip(testShip, 10, 1)).toBe(false); //Places ship out of range of board
 })
 
-it('placeShip: Out of range', () => {
-  expect(testBoard.placeShip(testShip, 10, 1)).toBe(false);
-})
 
 //^^^
-// it('placePiece', () => {
-//     expect(testBoard.placePiece([2,2], [4,2])).toBe(someresult);
-// }); //build logic
 
 // it('playerTurn', () => {
 //     expect(testBoard.playerTurn(x)).toBe(someresult);
@@ -141,9 +151,6 @@ it('placeShip: Out of range', () => {
 // }); //build logic
 //^^^
 
-// it('getShipsSunk', () => {
-//     expect(testBoard.getSunkShips()).toBe(0);
-// });
 
 //^^^
 // it('isGameWon', () => {

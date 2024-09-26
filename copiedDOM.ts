@@ -1,5 +1,5 @@
 //https://github.com/wolftec241/Odin-Battleship/blob/main/src/scripts/Dom.ts
-
+//dom.ts
 import { Gameboard } from "./copiedGameboard.ts";
 import { ShipPlacementWindow } from "./ShipPlacementWindow";
 import { EnemyAi } from "./EnemyAi";

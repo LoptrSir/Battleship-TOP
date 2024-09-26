@@ -4,47 +4,88 @@
 import { Ship } from "./ships.js";
 import { shipsData } from "./ships.js";
 
+//does it make sense to break up Gameboard into an addl class GamePlay/Player to handle placeShip, takeShot, changePlayer meaning things that are a mechanic of playing the game not creating the board?
 export class Gameboard {
   gridSize = 10;
   constructor(name) {
-    //remove name from args?
     this.name = name; //player/ai name
     this.board = Array(this.gridSize)
       .fill(null)
       .map(() => Array(this.gridSize).fill(null));
-    this.ships = []; //to track board pieces
+    this.ships = []; //to track board pieces// seems to be redundant with this.board
+    this.shipsList = new Set();
     this.numberOfShips = 0;
     this.missedShots = [];
     this.sunkShips = 0;
   }
 
-    //chooseShip() will eventually be DOM manipulated. use global calls in mean time to place ships.  Adjust function once modified for DOM as needed.
+  getName() {
+    //*Jest works but is based on undefined result. need logic to assign player/ai name.
+    return this.name;
+  }
+  getBoard() {
+    //*Jest works
+    return this.board;
+  }
+
+  getShipsList() {
+    //*Jest works
+    return this.shipsList;
+  }
+
+  getNumberOfShips() {
+    //*Jest works
+    return this.numberOfShips;
+  }
+
+  getMissedShots() {
+    return this.missedShots;
+  }
+
+  getSunkShips() {
+    //*Jest works
+    return this.sunkShips;
+  }
+
+  //chooseShip() will eventually be DOM manipulated. use global calls in mean time to place ships.  Adjust function once modified for DOM as needed.
   chooseShip(shipName, column, row, orientation) {
-    const shipsData = shipsData.find((ship) => ship.ship === shipName);
+    if (this.shipsList.has(shipName)) {
+      // return false; //use a specific error message instead?
+      throw new Error(`${shipName} has already been placed.`);
+    }
+    // const shipsData = shipsData.find((ship) => ship.ship === shipName);
+    const shipDetails = shipsData.find((ship) => ship.name === shipName);
+    //console.log(shipName); //works
+    //console.log('chooseShip', shipDetails); //works
 
     if (!shipsData) {
-      throw new Error("Ship not found");
+      throw new Error("Ship not found"); //does this make Jest grumpy, if so what about using alert instead? A: NO using an alert requires mocking the alert in Jest.
     }
 
-    const shipInstance = new Ship(shipsData.ship, shipsData.size, orientation);
-    //does this retun cause problems with Jest?
+    const shipInstance = new Ship(
+      shipDetails.name,
+      shipDetails.size,
+      orientation
+    );
+    //console.log('shipInstance', shipInstance); //works
+    this.shipsList.add(shipName);
+    //console.log('shipsList', this.shipsList); //works
     return this.placeShip(shipInstance, column, row);
   }
 
   // placeShip(ship, column, row, orientation) {
   placeShip(ship, column, row) {
-    // ship.orientation = orientation;
-    // ship.setOrientation(orientation);
+    //*Jest works
     let occupiedCells = [];
     if (ship.getIsVertical()) {
-      //check inbounds
+      //check if inbounds
       if (row + ship.size > this.gridSize || column < 0 || row < 0)
         return false;
       //check if occupied
       for (let i = 0; i < ship.size; i++) {
         if (!this.isCellAvailable(column, row + i)) return false;
       }
-      //place ship
+      //place ship on board
       for (let i = 0; i < ship.size; i++) {
         this.board[column][row + i] = ship;
         occupiedCells.push([column, row + i]);
@@ -62,19 +103,21 @@ export class Gameboard {
         occupiedCells.push([column + i, row]);
       }
     }
-    this.ships.push({ ship: ship, occupiedCells: occupiedCells });
-    this.numberOfShips++;
+    this.ships.push({ ship: ship, occupiedCells: occupiedCells }); //this seems redundant when board gets updated with this
+    this.numberOfShips++; //is this really needed?
+    console.log("placeShip", this.board);
     return true;
   }
 
-  //^^^
-  isWithinBounds(column, row) { //*
+  isWithinBounds(column, row) {
+    //*Jest works
     return (
       column >= 0 && column < this.gridSize && row >= 0 && row < this.gridSize
     );
   }
 
-  isCellAvailable(column, row) { //*
+  isCellAvailable(column, row) {
+    //*Jest works
     if (!this.isWithinBounds(column, row)) return false;
     return this.board[column][row] === null; // Check if cell is available
   }
@@ -97,21 +140,9 @@ export class Gameboard {
   //   }
   //   //logic for determine isSunk/GameWon?
   // }
-
-  getBoard() { //*
-    return this.board;
-  }
-
-  getMissedShots() {
-    return this.missedShots;
-  }
-
-  getSunkShips() { //*
-    return this.sunkShips;
-  }
-
-  getName() { //*
-    return this.name;
-  }
 }
 //need to create instances of player1.Gameboard player2/ai.gameboard
+
+// let x = new Gameboard("player1");
+// x.chooseShip("Destroyer", 0, 0, "vertical");
+// x.chooseShip("Carrier", 1, 2, "horizontal");

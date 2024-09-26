@@ -1,4 +1,5 @@
 //https://github.com/wolftec241/Odin-Battleship/blob/main/src/scripts/EnemyAi.ts
+//EnemyAi.ts
 import { Ship } from "./Ship";
 import { Gameboard } from "./Gameboard";
 

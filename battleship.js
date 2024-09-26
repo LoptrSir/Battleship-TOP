@@ -3,7 +3,9 @@
 //battleship.js
 
 //imports
-import { myFooter } from "./domManipulation.js";
+import { myFooter } from "./dom.js";
+import { Ship } from './ships.js';
+import { Gameboard } from '.gameBoard.js';
 
 //Declarations
 

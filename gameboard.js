@@ -1,6 +1,8 @@
 //Battleship TOP Project
 //gameboard.js
 
+import { GamePlay } from "./gamePlay.js";
+//import { gamePlayInstance } from "./gamePlay.js";
 import { Ship } from "./ships.js";
 import { shipsData } from "./ships.js";
 
@@ -39,6 +41,7 @@ export class Gameboard {
   }
 
   getMissedShots() {
+    //is this redundant if this.board tracks atacked?
     return this.missedShots;
   }
 
@@ -50,16 +53,16 @@ export class Gameboard {
   //chooseShip() will eventually be DOM manipulated. use global calls in mean time to place ships.  Adjust function once modified for DOM as needed.
   chooseShip(shipName, column, row, orientation) {
     if (this.shipsList.has(shipName)) {
-      // return false; //use a specific error message instead?
-      throw new Error(`${shipName} has already been placed.`);
+      throw new Error(`${shipName} has already been placed.`); //try/catch block to reset chooseShip
     }
-    // const shipsData = shipsData.find((ship) => ship.ship === shipName);
     const shipDetails = shipsData.find((ship) => ship.name === shipName);
     //console.log(shipName); //works
     //console.log('chooseShip', shipDetails); //works
 
     if (!shipsData) {
-      throw new Error("Ship not found"); //does this make Jest grumpy, if so what about using alert instead? A: NO using an alert requires mocking the alert in Jest.
+      throw new Error("Ship not found");
+      //likely unneeded when DOM is handling chooseShip
+      //try/catch block to reset
     }
 
     const shipInstance = new Ship(
@@ -71,42 +74,61 @@ export class Gameboard {
     this.shipsList.add(shipName);
     //console.log('shipsList', this.shipsList); //works
     return this.placeShip(shipInstance, column, row);
+    // return gamePlayInstance.placeShip(shipInstance, column, row);
   }
 
-  // placeShip(ship, column, row, orientation) {
   placeShip(ship, column, row) {
     //*Jest works
     let occupiedCells = [];
     if (ship.getIsVertical()) {
       //check if inbounds
       if (row + ship.size > this.gridSize || column < 0 || row < 0)
-        return false;
+        return false; //change to throw new Error, adjust test as needed
+      //throw new Error('Invalid Placement');
+      //try/catch block to reset
       //check if occupied
       for (let i = 0; i < ship.size; i++) {
-        if (!this.isCellAvailable(column, row + i)) return false;
+        if (!this.isCellAvailable(column, row + i)) return false; //change to throw new Error, adjust test as needed
+        //throw new Error('Invalid Placement');
+        //try/catch block to reset
+        //check if occupied
       }
       //place ship on board
       for (let i = 0; i < ship.size; i++) {
-        this.board[column][row + i] = ship;
+        this.board[column][row + i] = {
+          ship: ship,
+          attacked: false,
+        };
         occupiedCells.push([column, row + i]);
+        //Probably will remove occupiedCells as this.board can manage this
       }
     } else {
       if (column + ship.size > this.gridSize || column < 0 || row < 0)
-        return false;
+        return false; //change to throw new Error, adjust test as needed
+      //throw new Error('Invalid Placement');
+      //try/catch block to reset
+      //check if occupied
 
       for (let i = 0; i < ship.size; i++) {
-        if (!this.isCellAvailable(column + i, row)) return false;
+        if (!this.isCellAvailable(column + i, row)) return false; //change to throw new Error, adjust test as needed
+        //throw new Error('Invalid Placement');
+        //try/catch block to reset
+        //check if occupied
       }
 
       for (let i = 0; i < ship.size; i++) {
-        this.board[column + i][row] = ship;
+        this.board[column + i][row] = {
+          ship: ship,
+          attacked: false,
+        };
         occupiedCells.push([column + i, row]);
+        //Probably will remove occupiedCells as this.board can manage this
       }
     }
     this.ships.push({ ship: ship, occupiedCells: occupiedCells }); //this seems redundant when board gets updated with this
     this.numberOfShips++; //is this really needed?
     console.log("placeShip", this.board);
-    return true;
+    return true; //logic to move to next step?
   }
 
   isWithinBounds(column, row) {
@@ -118,31 +140,57 @@ export class Gameboard {
 
   isCellAvailable(column, row) {
     //*Jest works
-    if (!this.isWithinBounds(column, row)) return false;
+    if (!this.isWithinBounds(column, row)) return false; //does this need to throw new Error? or does parent function address this? //change to throw new Error, adjust test as needed
+    //throw new Error('Invalid Placement');
+    //try/catch block to reset
+
+    //check if occupied
     return this.board[column][row] === null; // Check if cell is available
   }
 
-  // receiveAttack(column, row) {
-  //   const target = board[column][row];
-  //   //logic for valid shot needed. or turn off eventListeners for occupied cells?
-  //   if (target === null) {
-  //     //make sure cell has null value if not occupied by shit or miss.
-  //     this.missedShots.push([column][row]); //track missedShots
-  //     board[column][row] = "miss";
-  //      //is updating missedShots and board redundant?
-  //     return "miss"; or return true/false?
-  //   } else {
-  //      //verify if hit a valid target
-  //     //dose using typeof instead of else make sense?  else is assuming miss or hit as only options.
-  //     target.increaseHitCount();
-  //     board[column][row] = "hit";
-  //     return "hit";
-  //   }
-  //   //logic for determine isSunk/GameWon?
-  // }
+  //Need to incorporate calls to update DOM as appropriate
+  makeAttack(column, row) {
+    if (this.isWithinBounds(column, row) === false) {
+      throw new Error("Invalid shot, try again");
+      //with DOM UI control this becomes unneeded
+      //try/catch block to resolve error and reset makeAttack
+    }
+    const cell = this.board[column][row];
+    if (cell.attacked) {
+      return "Already Attacked"; //change to throw new Error, adjust test as needed
+      //throw new Error('Invalid Placement');
+      //try/catch block to reset
+    }
+    cell.attacked = true; //updates boolean to true
+    if (cell.ship) {
+      //logic to update shipHit/HitCount/isSunk/isGameWon
+      //DOM UI logic to dispay Hit
+      //validate if x.constructorItem is proper.
+      x.hitCounter++; //proper way to increase count?
+      if (x.hitCounter >= x.size) {
+        x.isSunk = true;
+        this.sunkShip++; //proper way to increase count?
+      }
+      if (this.sunkShips >= 5) {
+        //DOM logic for playAgain/update games won counter(if used)
+        return `You sank my ${this.ship}. You have WON!`;
+      }
+      if (this.isSunk === true) {
+        return `You sank my ${this.ship}`; //verify this is calling ship properly
+      }
+      // Change player logic
+      return "Hit!";
+    } else {
+      //logic to mark DOM UI cell with 'miss'
+      //DOM UI logic display Miss
+      //change player logic
+      return "Miss";
+    }
+  }
 }
+
 //need to create instances of player1.Gameboard player2/ai.gameboard
 
-// let x = new Gameboard("player1");
+export const x = new Gameboard("player1");
 // x.chooseShip("Destroyer", 0, 0, "vertical");
 // x.chooseShip("Carrier", 1, 2, "horizontal");

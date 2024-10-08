@@ -5,13 +5,17 @@
 //relevant imports here
 import { myFooter } from "./dom.js";
 import { Gameboard } from "./gameboard.js";
-//import { myFooter } from "./dom.js";
-//call initialize game 
+import { GamePlay } from './gamePlay.js';
+import { initializeGame } from './gamePlay.js';
 
+//call initialize game 
+// GamePlay.initializeGame();
+
+initializeGame();
 
 myFooter();
 
-
-let x = new Gameboard("player1");
-x.chooseShip("Destroyer", 0, 0, "vertical");
-x.chooseShip("Carrier", 1, 2, "horizontal");
+//remove this once initializeGame is working
+//let x = new Gameboard("player1");
+//x.chooseShip("Destroyer", 0, 0, "vertical");
+//x.chooseShip("Carrier", 1, 2, "horizontal");

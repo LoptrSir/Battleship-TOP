@@ -1,6 +1,7 @@
 TOP Battleship project
 The intent is to work on testing using Jest.
 
+10/8 working on initializeGame and the bubble down impact.  GameBoard board becomes player1/2Board. working on changing logic instances of board to currentBoard based on which player turn it is. Explore breaking Players into its own class. GamePlay is getting bloated.
 10/2 makeAttack() built, need to vette calls are valid and build tests.
 makeAttack test to validate out of range cell functions.
 9/26 : built several more Gameboard tests. Merged multiple similar tests into a single test with multiple expects. got Ship this.orientation and setOrientation() working. created this.shipsList to verify a piece has not been placed.  Will likely remove this.ships as it seems redundant to this.board for the purpose of tracking where ships are. created index.js as webpage initializer.

@@ -52,9 +52,11 @@ it("testBoard getBoard with null values", () => {
   const expectedGrid = Array(10)
     .fill(null)
     .map(() => Array(10).fill(null));
-  expect(testBoard.getBoard()).toEqual(expectedGrid);
+  // expect(testBoard.getBoard()).toEqual(expectedGrid);
+  expect(testBoard.getPlayer1Board()).toEqual(expectedGrid);
 
-  for (let row of testBoard.getBoard()) {
+  // for (let row of testBoard.getBoard()) {
+    for (let row of testBoard.getPlayer1Board()) {
     for (let cell of row) {
       expect(cell).toBeNull();
     }
@@ -86,7 +88,8 @@ it("testBoard isWithinBounds TRUE and FALSE", () => {
 
 it("testBoard isCellAvailable True/False/OutOfBounds", () => {
   expect(testBoard.isCellAvailable(2, 3)).toBe(true);
-  testBoard.board[4][4] = "testShip";
+  //testBoard.board[4][4] = "testShip";
+  testBoard.player1Board[4][4] = "testShip";
   expect(testBoard.isCellAvailable(4, 4)).toBe(false);
   expect(testBoard.isCellAvailable(12, 3)).toBe(false);
 });
@@ -95,7 +98,8 @@ it("testBoard placeShip; in range true/false and test ship properly placed", () 
   expect(testBoard.placeShip(testShip, 1, 1)).toBe(true);
 
   // confirm ship is now placed in the correct cells
-  const board = testBoard.getBoard();
+  // const board = testBoard.getBoard();
+  const board = testBoard.getPlayer1Board();
 
   expect(board[1][1].ship).toBe(testShip);
   expect(board[1][2].ship).toBe(testShip);

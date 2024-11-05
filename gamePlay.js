@@ -3,41 +3,43 @@
 //gampeplay.js
 
 import { Gameboard } from "./gameboard.js";
+import { Players } from './players.js';
 //import { x } from "./gameboard.js";
 
+    //$$ do this need to be relocated?
     //@ working on changePlayer and the related p1/2Board updates.
     //@ const currentPlayer = getCurrentPlayer();
     //@ const currentBoard = currentPlayer.playerBoard;
    
-
+//$$ does this remain with Players addition?
 let player1 = "";
 let player2 = "";
 
 export class GamePlay {
   constructor(name) {
-    this.name = name;
+    //$$this.name = name; 
     //this.turn = this.whoGoesFirst();
-    this.score = 0;
-    this.turn = null; //boolean?
-    this.playerBoard = new Gameboard();
+    //$$this.score = 0;
+    //$$this.turn = null; //boolean?
+    this.playerBoard = new Gameboard(); //$$ move this to Players or change to declare each player in this constructor?
   }
 
-  getPlayerName() {
-    return this.name;
-  }
+//$ moved to Players
+//   getPlayerName() {
+//     return this.name;
+//   }
+//   getScore() {
+//     return this.score;
+//   }
+//   getTurn() {
+//     return this.turn;
+//   }
+//   setTurn(turnValue) {
+//     this.turn = turnValue; //verify this updates both player instances.
+//  }
+//$ end move
 
-  getScore() {
-    return this.score;
-  }
-
-  getTurn() {
-    return this.turn;
-  }
-
-  setTurn(turnValue) {
-    this.turn = turnValue; //verify this updates both player instances.
-  }
-
+//to be modified based on constructors location
   getPlayerBoard() {
     return this.playerBoard;
   }
@@ -49,14 +51,15 @@ export class GamePlay {
 
   initiateAttack() {
     //DOM will change this
-    // const column = Number(prompt('Enter column:'));
+     // const column = Number(prompt('Enter column:'));
     // const row = Number(prompt('Enter Row;'));
     // const gameboard = prompt('enter players gameboard:'); //how is this declared/relevant?
-    // x.makeAttack(column, row, gameboard); //make correct call of playersGameboard?
-
+    //makeAttack(column, row)
+ 
     //switch turn here or in the gameBoard?
   }
 
+  //$$ move to Players?
   //changePlayer() {
   //   this.turn = !this.turn;
   // }
@@ -68,21 +71,25 @@ export class GamePlay {
   //reset()
 }
 
-function humanOrAi() {
-  //will ultimately be managed by DOM UI, this becomes redundant at that point.
+//$$ moved to Players
+// function humanOrAi() {
+//   //will ultimately be managed by DOM UI, this becomes redundant at that point.
 
-  const p2Type = prompt("Input: human OR ai");
-  if (p2Type === "human" || p2Type === "ai") {
-    return p2Type;
-  } else {
-    let response = prompt("invalid response, please input: human/ai");
-    return humanOrAi(response);
-  }
-}
+//   const p2Type = prompt("Input: human OR ai");
+//   if (p2Type === "human" || p2Type === "ai") {
+//     return p2Type;
+//   } else {
+//     let response = prompt("invalid response, please input: human/ai");
+//     return humanOrAi(response);
+//   }
+// }
+//$ end move
 
+//$$ with addition of Players. Does this or its initial declaration move there?
  //@ function getCurrentPlayer() {
 //  return player1.getTurn() ? player1 : player2;
 // }
+
 
 //@ function switchTurn() {
 //     if (player1.getTurn()) {
@@ -97,6 +104,7 @@ function humanOrAi() {
 export function initializeGame() {
   //this will likely require tweaking after DOM creation.
 
+///**possible considerations for individual names
 //   let p1PlayerName = prompt('What is your name?')
 //   player1 = new GamePlay(p1PlayerName);
 //   player1.setTurn = true;
@@ -104,15 +112,18 @@ export function initializeGame() {
 //   player2 = new GamePlay(p2PlayerType);
 //   player2.setTurn = false;
 
-player1 = new GamePlay();
+//$$ best location for Player1/2 declaration? currently at top of gamePlay.js
+// player1 = new GamePlay();
+player1 = new Players();
 player1.setTurn = true;
-player2 = new GamePlay();
+// player2 = new GamePlay();
+player2 = new Players();
 player2.setTurn = false;
 
   //prompt Player1 to place ships
   //prompt Player2 to place ships
 
-
+//$$ update instances? Instance seems valid, but playerBoard probably needs to be tweaked. Current code throws TypeError: cannot read properties of undefined 'chooseShip
   player1.playerBoard.chooseShip("Destroyer", 0, 0, "vertical");
   player1.playerBoard.chooseShip("Carrier", 1, 2, "horizontal");
 //   player2.playerBoard.chooseShip("Destroyer", 3, 3, "vertical");

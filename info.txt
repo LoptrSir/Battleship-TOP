@@ -1,6 +1,30 @@
 TOP Battleship project
 The intent is to work on testing using Jest.
 
+11/5 saving as redux-2.7. Starting over.
+10/9 creating Players class.
+Multiple things needs to be tweaked:
+-move relevant constructor declarations.
+-move functions.
+-modify tests.
+-modify //@ code.
+
+Address these by each number:
+#1
+/$$ reside inside Players class or outside?-
+specifically looking at isHumanOrAi() its intent is a mechanic of helping initializeGame() determine if player2 is human/ai as that will impact future logic
+2 you ignored 
+GamePlay.js:
+//$$ does this need to be relocated:-
+specifically the //@ comments that follow right after. Is it in the right place? 
+3 //$$ move this to Players or change to declare each player in this constructor?- 
+I used this.playerBoard to declare new Gameboard for the player instance.  Is there a better argument for declaring player1/2Board or does the GameBoard class take care of that need? 
+4 //$$ does this remain with Players addition?-
+ Specifically where is the best place for the declaration of Player1/2?
+5 //$$ with addition of Players. Does this or its initial declaration move there?
+Specifically, If it resides in GamePlay is this a proper place for the declaration?
+
+
 10/8 working on initializeGame and the bubble down impact.  GameBoard board becomes player1/2Board. working on changing logic instances of board to currentBoard based on which player turn it is. Explore breaking Players into its own class. GamePlay is getting bloated.
 10/2 makeAttack() built, need to vette calls are valid and build tests.
 makeAttack test to validate out of range cell functions.

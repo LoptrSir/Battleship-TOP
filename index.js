@@ -8,8 +8,6 @@ import { Gameboard } from "./gameboard.js";
 import { GamePlay } from './gamePlay.js';
 import { initializeGame } from './gamePlay.js';
 
-//call initialize game 
-// GamePlay.initializeGame();
 
 initializeGame();
 

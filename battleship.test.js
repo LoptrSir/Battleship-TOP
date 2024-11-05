@@ -9,6 +9,7 @@ jest.mock("./dom.js", () => ({
 import { Ship } from "./ships.js";
 import { Gameboard } from "./gameboard.js";
 import { GamePlay } from "./gamePlay.js";
+import { Players } from "./players.js";
 
 // import { Player } from "./battleship.js";
 // import { initializeGame } from "./battleship.js";

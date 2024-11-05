@@ -1,26 +1,26 @@
 //Battleship project for TOP
+//Jest testing sandbox
 //tests.js
 
 //prevents jest from throwing error on myFooter call.
-jest.mock("./dom.js", () => ({
+jest.mock("./1dom.js", () => ({
   myFooter: jest.fn(), // Mock myFooter()
 }));
 
-import { Ship } from "./ships.js";
-import { Gameboard } from "./gameboard.js";
-import { GamePlay } from "./gamePlay.js";
-import { Players } from "./players.js";
-
-// import { Player } from "./battleship.js";
-// import { initializeGame } from "./battleship.js";
+import { Ship } from "./1ships.js";
+//import { Gameboard } from "./1gameboard.js";
+//import { GamePlay } from "./1gamePlay.js";
+//import { Players } from "./1players.js";
 
 //***Ship tests
 let testShip;
 
 beforeEach(() => {
   testShip = new Ship("testShip", 4, "vertical");
+  // testShip = new Ship("testShip", 4, "badInput");
 });
-// all Ship class tests are in this one test
+
+//- all Ship class tests are in this one test
 it("testShip: name, size, orientation", () => {
   expect(testShip.getName()).toBe("testShip");
   expect(testShip.getSize()).toBe(4);
@@ -28,42 +28,42 @@ it("testShip: name, size, orientation", () => {
   expect(testShip.getIsVertical()).toBe(true);
   expect(testShip.setOrientation("horizontal")).toBe("horizontal");
   expect(testShip.getHitCounter()).toBe(0);
-  testShip.increaseHitCount();
-  testShip.increaseHitCount();
-  expect(testShip.getHitCounter()).toBe(2);
-  expect(testShip.getIsSunk()).toBe(false);
-  testShip.increaseHitCount();
-  testShip.increaseHitCount();
-  testShip.increaseHitCount();
-  testShip.increaseHitCount();
-  expect(testShip.getIsSunk()).toBe(true);
+    testShip.increaseHitCount();
+    testShip.increaseHitCount();
+    expect(testShip.getHitCounter()).toBe(2);
+    expect(testShip.getIsSunk()).toBe(false);
+    testShip.increaseHitCount();
+    testShip.increaseHitCount();
+    testShip.increaseHitCount();
+    testShip.increaseHitCount();
+    expect(testShip.getIsSunk()).toBe(true);
 });
 
 //***Gameboard tests
 let testBoard;
 
-beforeEach(() => {
-  testBoard = new Gameboard();
-});
+// beforeEach(() => {
+//   testBoard = new Gameboard();
+// });
 
 // it("testBoard getName", () => {
 //   expect(testBoard.getName()).toBe(undefined); //modify to add a name?
 // });
+
 // it("testBoard getBoard with null values", () => {
 //   const expectedGrid = Array(10)
 //     .fill(null)
 //     .map(() => Array(10).fill(null));
-//   // expect(testBoard.getBoard()).toEqual(expectedGrid);
 //   expect(testBoard.getPlayer1Board()).toEqual(expectedGrid);
-
-//   // for (let row of testBoard.getBoard()) {
 //     for (let row of testBoard.getPlayer1Board()) {
 //     for (let cell of row) {
 //       expect(cell).toBeNull();
 //     }
 //   }
 // });
-// //not testing  for this.ships as it will likely be removed
+
+//-not testing  for this.ships as it will likely be removed
+
 // it("testBoard getShipsList base and modified", () => {
 //   expect(testBoard.getShipsList()).toEqual(new Set());
 //   testBoard.getShipsList().add("Destroyer");
@@ -94,14 +94,14 @@ beforeEach(() => {
 //   expect(testBoard.isCellAvailable(4, 4)).toBe(false);
 //   expect(testBoard.isCellAvailable(12, 3)).toBe(false);
 // });
-// // Not testing ChooseShip as this will likely become DOM managed.
+
+//- Not testing ChooseShip as this will likely become DOM managed.
 // it("testBoard placeShip; in range true/false and test ship properly placed", () => {
 //   expect(testBoard.placeShip(testShip, 1, 1)).toBe(true);
 
 //   // confirm ship is now placed in the correct cells
-//   // const board = testBoard.getBoard();
+//     // const board = testBoard.getBoard();
 //   const board = testBoard.getPlayer1Board();
-
 //   expect(board[1][1].ship).toBe(testShip);
 //   expect(board[1][2].ship).toBe(testShip);
 //   expect(board[1][3].ship).toBe(testShip);
@@ -115,7 +115,6 @@ beforeEach(() => {
 //     testBoard.makeAttack(-1, 11);
 //   }).toThrow("Invalid shot, try again");
 // });
-
 
 //^^^
 

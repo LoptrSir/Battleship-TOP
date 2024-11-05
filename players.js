@@ -24,13 +24,13 @@ export class Players {
     return this.turn;
   }
 
-  //$$ I think this might be better in GamePlay as this is a play management thing not a Player feature?
+  //move setTurn to gamePlay.js
   setTurn(turnValue) {
     this.turn = turnValue; //verify this updates both player instances.
   }
-  //$$ humanOrAi() reside inside Players class or outside? As a mechanic of helping initializeGame() determine if player2 is human/ai as that will impact future logic.
+  //move humanOrAi() to gamePlay?
   humanOrAi() {
-    //will ultimately be managed by DOM UI, this becomes redundant at that point.
+    //prompts to interface with DOM.
     const p2Type = prompt("Input: human OR ai");
     if (p2Type === "human" || p2Type === "ai") {
       return p2Type;
@@ -38,7 +38,7 @@ export class Players {
       let response = prompt("invalid response, please input: human/ai");
       return humanOrAi(response); 
     }
-    return p2Type; 
+    //return p2Type; 
   }
 
 

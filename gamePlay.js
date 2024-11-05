@@ -114,9 +114,10 @@ export function initializeGame() {
 
 //$$ best location for Player1/2 declaration? currently at top of gamePlay.js
 // player1 = new GamePlay();
-player1 = new Players();
+player1 = new Players(prompt('Enter Player 1 name'));
 player1.setTurn = true;
 // player2 = new GamePlay();
+player2Type = humanOrAi(); //How to take this result and ask for P2 name if not ai?
 player2 = new Players();
 player2.setTurn = false;
 

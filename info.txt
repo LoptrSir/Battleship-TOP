@@ -1,7 +1,10 @@
 TOP Battleship project
 The intent is to work on testing using Jest.
 
+11/6 redux 3.1
 11/5 saving as redux-2.7. Starting over.
+   1: created 1ships.js with functional testing.
+   2: creating 1players, 1gameBoard, 1 gamePlay.
 10/9 creating Players class.
 Multiple things needs to be tweaked:
 -move relevant constructor declarations.

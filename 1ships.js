@@ -13,6 +13,8 @@ export const shipsData = [
     constructor(name, size, orientation) {
       this.name = name;
       this.size = size;
+      //is this proper orientation setting if instance is created elsewhere?
+      // this.orientation = null;
       this.setOrientation(orientation);
       this.hitCounter = 0;
       this.isSunk = false;
@@ -28,19 +30,19 @@ export const shipsData = [
       return this.size;
     }
   
-    setOrientation(orientation) {
-      //*Jest works
-      if (orientation !== "horizontal" && orientation !== "vertical") {
-        // throw new Error(
-        //   `${orientation} is invalid. Select 'horizontal' of 'vertical'`
-        // );  //try/catch block 
-       let result = prompt ('Invalid orientation, enter "horizontal"or "vertical"');
-       return this.setOrientation(result);
-      } else {
-        this.orientation = orientation;
-        return this.orientation;
-      }
-    }
+    // setOrientation(orientation) {
+    //   //*Jest works
+    //   if (orientation !== "horizontal" && orientation !== "vertical") {
+    //     // throw new Error(
+    //     //   `${orientation} is invalid. Select 'horizontal' of 'vertical'`
+    //     // );  //try/catch block 
+    //    let result = prompt ('Invalid orientation, enter "horizontal"or "vertical"');
+    //    return this.setOrientation(result);
+    //   } else {
+    //     this.orientation = orientation;
+    //     return this.orientation;
+    //   }
+    // }
   
     getHitCounter() {
       //*Jest works

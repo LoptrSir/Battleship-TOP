@@ -1,42 +1,137 @@
 //TOP Battleship Project
 //game play mechanics
-//gamePlay.js
+//1gamePlay.js
+
+import { minSatisfying } from "semver";
 
 // import { Gameboard } from "./1gameboard.js";
-// import { Players } from './1players.js';
 
 
 export class GamePlay {
   //   constructor(name) {
   constructor() {
-    //this.turn = player1;
-    //this.score = 0;
-    this.playerBoard = new Gameboard(); //is this needed here?
+    this.turn = player1;
+    //this.gameWon = false; //useful for preventing further actions, trigger DOM actions, trigger new game routine
+
+    //this.playerBoard = new Gameboard(); //to be removed. handled by Gameboard.
   }
 
-  //   getTurn() {
-  //     return this.turn;
-  //   }
-  //   setTurn(turnValue) {
-  //     this.turn = turnValue; //verify this updates both player instances.
-  //  }
-
-  //why is this relevant/needed
-  getPlayerBoard() {
-    return this.playerBoard;
+  getTurn() {
+    return this.turn;
   }
 
-//seems placePlayerShip is a gameBoard mechanic.
-  //   placePlayerShip(ship, column, row, orientation) {
-  //     currentBoard.placeShip(ship, column, row, orientation)
+  getGameWon() {
+    return this.gameWon;
+  }
+
+  //working on in sandbox.js
+//   manageShotResult(result, cell) {
+//     if(result === 'miss') {
+//         alert(Miss);
+//         advanceTurn;
+//     } else if( result === 'hit') {
+//         ship.increaseHitCount(); 
+//         //logic to determine if hitCount >= sunk and updaing isSunk()
+//         if (ship.hitCounter >= ship.size) {
+//             ship.isSunk = true;
+//             //need to modify for correct gameboard
+//             Gameboard.sunkShips++;
+//         }
+//         if (ship.getIsSunk() === true)
+//             //logic to increase sunkShips count
+//           if (this.sunkShips >= 5) {
+//                 GamePlay.gameWon = true;
+//                 return `You sank my ${this.ship}. You have WON!`;
+//           }
+//         if (this.isSunk === true) {
+//            return `You sank my ${this.ship}`; 
+//         }
+
+    //}
+    //advanceTurn();
+  //}
+
+//   advanceTurn(turnValue) {
+//     // instead of passing an argument, what about using getTurn() with a ternary operator?
+//     this.turn = turnValue; //verify this updates both player instances.
+//   }
+
+  processGameWon() {
+    if (this.gameWon === true) {
+      //announce winner
+      //provide play again option that triggers reset of all but players names.
+    }
+  }
+
+  //$^$^DO NOT USE SCORE over complicates things
+  //   getScore() {
+  //     return {
+  //         p1Score: this.p1Score,
+  //         p2Score: this.p2Score
+  //     };
   //   }
+
+  //   //to be moved to Gameboard. modify to call both players?
+  //   getPlayerBoard() {
+  //     return this.playerBoard;
+  //   }
+
+  //*(*(*( place/chooseShip defines shipName, column, row and orientation.  Does creating instance here cause a problem if placement fails as instance will exist but not be placed?
+  //Gameboard.processPlaceShip() manages physical placement.
+  //How does this logic update proper player board?
+  //   placePlayerShip() {
+  // let ship = prompt('select a ship');
+  // let column = Number(prompt('input column number'));
+  //  let row = Number(prompt('input row number'));
+  //let orientation = prompt('input "vertical" OR " horizontal"').toLowerCase().trim();
+  //if (orientation === 'vertical' || orientation === 'horizontal') {
+  // break;
+  // } else {
+  //         alert('Invalid input, Please enter "vertical" or "horizontal"');
+  // }
+  //     Gameboard.processPlaceShip(ship, column, row, orientation)
+  //   }
+
+  //chooseShip to gamePlay: build logic to select column/row, orientation
+  //remove args from chooseShip as they need to be declared
+  //   chooseShip(shipName, column, row, orientation) {
+  // // // //
+  //     chooseShip() {
+  //         //logic for selecting shipName, col, row, orientation here.
+  //     if (this.shipsList.has(shipName)) {
+  //       throw new Error(`${shipName} has already been placed.`); //f I stay with throw new error: how do I implement a new choice?
+  //       // let response = prompt("has already been placed, enter another ship");
+  //       // return chooseShip(response, column, row, orientation);
+  //     }
+  //     //where is (ship) being declared from?
+  //     const shipDetails = shipsData.find((ship) => ship.name === shipName);
+  //     //console.log(shipName);
+  //     //console.log('chooseShip', shipDetails);
+
+  //     if (!shipsData) {
+  //       throw new Error("Ship not found");
+  //       // let response = prompt("Ship not found enter new ship:");
+  //       // return chooseShip(response, column, row, orientation);
+  //     }
+  //         //passing shipInstance as an argument: How do I break apart the details in resulting call?
+  //     const shipInstance = new Ship(
+  //       shipDetails.name,
+  //       shipDetails.size,
+  //       orientation
+  //     );
+  //     //console.log('shipInstance', shipInstance);
+  //     this.shipsList.add(shipName);
+  //     //console.log('shipsList', this.shipsList);
+  //     return this.processPlaceShip(shipInstance, column, row);
+  //   }
+  //*(*(
 
   initiateAttack() {
-    //Does it make sense to not have this in makeAttack?
+    //How to determine correct Gameboard to attack?
+    //accepts attack coordinates then calls Gameboard.processAttack()
     // const column = Number(prompt('Enter column:'));
     // const row = Number(prompt('Enter Row;'));
-    // const gameboard = prompt('enter players gameboard:'); //how is this declared/relevant?
-    //makeAttack(column, row)
+    //processAttack(column, row)
     //switch turn here or in the gameBoard?
   }
 

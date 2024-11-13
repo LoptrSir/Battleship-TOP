@@ -7,6 +7,8 @@
 // import { shipsData } from "./1ships.js";
 // import { Players } from "./1players.js";
 
+//Row is looked at before Column. Do I need to change all instances or column/row or just when going to the actual grid?
+
 //$$ comments with //@ likely need tweaking for Players creation
 //@ working on changePlayer and the related p1/2Board updates.
 //@ const currentPlayer = getCurrentPlayer();
@@ -30,6 +32,7 @@ export class Gameboard {
     this.player1Board = Array(this.gridSize)
       .fill(null)
       .map(() => Array(this.gridSize).fill(null));
+    //figure out logic to display both boards with only the relevant data for each player
 
     this.player2Board = Array(this.gridSize)
       .fill(null)
@@ -42,27 +45,18 @@ export class Gameboard {
     this.sunkShips = 0;
   }
 
-  // getBoard() {
-  //   //*Jest works
-  //   return this.board;
-  // }
-
   getPlayer1Board() {
-    //*Jest works
     return this.player1Board;
   }
   getPlayer2Board() {
-    //*Jest works
     return this.player2Board;
   }
 
   getShipsList() {
-    //*Jest works
     return this.shipsList;
   }
 
   getNumberOfShips() {
-    //*Jest works
     return this.numberOfShips;
   }
 
@@ -72,44 +66,47 @@ export class Gameboard {
   }
 
   getSunkShips() {
-    //*Jest works
     return this.sunkShips;
   }
 
-  //combine chooseShip and placeShip? if not chooseShip seems to have too many arguments.
-  chooseShip(shipName, column, row, orientation) {
-    if (this.shipsList.has(shipName)) {
-      throw new Error(`${shipName} has already been placed.`); //f I stay with throw new error: how do I implement a new choice?
-      // let response = prompt("has already been placed, enter another ship");
-      // return chooseShip(response, column, row, orientation);
-    }
-    const shipDetails = shipsData.find((ship) => ship.name === shipName);
-    //console.log(shipName);
-    //console.log('chooseShip', shipDetails);
+  //   //chooseShip to gamePlay: build logic to select column/row, orientation
+  //   //remove args from chooseShip as they need to be declared
+  // //   chooseShip(shipName, column, row, orientation) {
+  //     chooseShip() {
+  //         //logic for selecting shipName, col, row, orientation here.
+  //     if (this.shipsList.has(shipName)) {
+  //       throw new Error(`${shipName} has already been placed.`); //f I stay with throw new error: how do I implement a new choice?
+  //       // let response = prompt("has already been placed, enter another ship");
+  //       // return chooseShip(response, column, row, orientation);
+  //     }
+  //     //where is (ship) being declared from?
+  //     const shipDetails = shipsData.find((ship) => ship.name === shipName);
+  //     //console.log(shipName);
+  //     //console.log('chooseShip', shipDetails);
 
-    if (!shipsData) {
-      throw new Error("Ship not found");
-      // let response = prompt("Ship not found enter new ship:");
-      // return chooseShip(response, column, row, orientation);
-    }
+  //     if (!shipsData) {
+  //       throw new Error("Ship not found");
+  //       // let response = prompt("Ship not found enter new ship:");
+  //       // return chooseShip(response, column, row, orientation);
+  //     }
+  //         //passing shipInstance as an argument: How do I break apart the details in resulting call?
+  //     const shipInstance = new Ship(
+  //       shipDetails.name,
+  //       shipDetails.size,
+  //       orientation
+  //     );
+  //     //console.log('shipInstance', shipInstance);
+  //     this.shipsList.add(shipName);
+  //     //console.log('shipsList', this.shipsList);
+  //     return this.processPlaceShip(shipInstance, column, row);
+  //   }
 
-    const shipInstance = new Ship(
-      shipDetails.name,
-      shipDetails.size,
-      orientation
-    );
-    //console.log('shipInstance', shipInstance);
-    this.shipsList.add(shipName);
-    //console.log('shipsList', this.shipsList);
-    return this.placeShip(shipInstance, column, row);
-  }
-
-  placeShip(ship, column, row) {
-    //*Jest works
+  //   placeShip(ship, column, row) {
+  processPlaceShip(ship, column, row) {
     let occupiedCells = [];
 
     if (ship.getIsVertical()) {
-      //check if inbounds
+      //is inbounds?
       if (row + ship.size > this.gridSize || column < 0 || row < 0) {
         return false;
         //change return to prompt as below
@@ -117,7 +114,7 @@ export class Gameboard {
         // let newRow = Number(prompt('invalid placement enter new row location;'));
         // return this.placeShip(ship, col, newRow);
       }
-      //check if occupied
+      //is occupied?
       for (let i = 0; i < ship.size; i++) {
         if (!this.isCellAvailable(column, row + i)) return false;
         //change return to below
@@ -131,6 +128,8 @@ export class Gameboard {
       //place ship on board
       for (let i = 0; i < ship.size; i++) {
         // this.board[column][row + i] = {
+        //modify for p1/p2
+        //verify all cells are updated
         this.player1Board[column][row + i] = {
           ship: ship,
           attacked: false,
@@ -151,7 +150,7 @@ export class Gameboard {
         // return this.placeShip(ship, col, newRow);
       }
 
-      //check if occupied
+      //is occupied?
       for (let i = 0; i < ship.size; i++) {
         if (!this.isCellAvailable(column + i, row)) return false;
         //   change return to below
@@ -169,73 +168,70 @@ export class Gameboard {
           //Probably will remove occupiedCells as this.board can manage this
         }
       }
-      this.ships.push({ ship: ship, occupiedCells: occupiedCells }); //this seems redundant when board gets updated with this
+      this.ships.push({ ship: ship, occupiedCells: occupiedCells });
+      //this seems redundant when board gets updated with this
       this.numberOfShips++; //is this really needed?
-      return true; //logic to move to next step?
+      //logic to move to next step
+      return true;
     }
   }
 
   isWithinBounds(column, row) {
-    //*Jest works
+    //does this return make the call work?
     return (
       column >= 0 && column < this.gridSize && row >= 0 && row < this.gridSize
     );
   }
 
   isCellAvailable(column, row) {
-    //*Jest works
-    //any false returns addressed in placeShip
+    //false return addressed by placeShip
     if (!this.isWithinBounds(column, row)) return false;
 
-    //check if occupied
-    // return this.board[column][row] === null;
+    //is occupied?
+    //is this return correct for p2?
     return this.player1Board[column][row] === null;
   }
 
-  //makeAttack column/row passed by initiateAttack in GamePlay
-  makeAttack(column, row) {
+  //processAttack args from Gameplay.initiateAttack()
+  //How to make sure proper Gameboard is used?
+  //   makeAttack(column, row) {
+  processAttack(column, row) {
+    //Once DOM manages interface: block is unneeded
     if (this.isWithinBounds(column, row) === false) {
       throw new Error("Invalid shot, try again");
-      //with DOM UI control this becomes unneeded
-      //use prompt to get new col/row and recall makeAttack()
     }
+    //modify this for p1/p2
     const cell = this.player1Board[column][row];
 
     if (cell.attacked) {
+      //DOM wont react to attacked cells: bock can be removed then
       return "Already Attacked";
       // change return to throw new Error, adjust test as needed
       // replace with let result = prompt() and recall with result/args
     }
-    cell.attacked = true; //updates boolean to true
+    cell.attacked = true;
+    //does this properly check to see if cell is occupied by a ship?
+    let result;
     if (cell.ship) {
-      //logic to update shipHit/HitCount/isSunk/isGameWon
-      //DOM UI logic to dispay Hit
-      ship.increaseHitCount(); //need to call the instance.
-      if (Ship.getIsSunk() === true)
-        if (this.sunkShips >= 5) {
-          //
-          return `You sank my ${this.ship}. You have WON!`;
-          //explore return true, let DOM handle message
-        }
-      if (this.isSunk === true) {
-        //need to call the instance
-        //this.switchTurn();
-        return `You sank my ${this.ship}`; //ned to call instance of ship
-        //explore changing return to true and let DOM handle the actual message
-      }
-      //this.switchTurn();
-      return "Hit!";
-      //explore return true, let DOM handle message
+        //logic moved to manageShotResult
+    //   ship.increaseHitCount();
+    //   if (Ship.getIsSunk() === true)
+    //     if (this.sunkShips >= 5) {
+    //       GamePlay.gameWon = true;
+    //       return "You sank my ${this.ship}. You have WON!";
+    //     }
+    //   if (this.isSunk === true) {
+    //     return "You sank my ${this.ship}";
+    //   }
+      result = "hit";
     } else {
-      //logic to mark DOM UI cell with 'miss'
-      //DOM UI logic display Miss
-      //this.switchTurn();
-      return "Miss";
-      //explore return true, let DOM handle message
+      result = "miss";
     }
+    return manageShotResult(result);
   }
 
   getCurrentPlayer() {
+    //modify this for gamePlay this.turn
     return this.player1.getTurn() ? player1 : player2;
   }
 }

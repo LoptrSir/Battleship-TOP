@@ -1,0 +1,11 @@
+Battleship TOP project
+file for tracking basic design parameters
+
+The intent is to not follow my instinct to overly complicate the game by adding a bunch of 'it would be nice' features.
+
+-NOT tracking player names.
+-NOT tracking scores.
+-Only Human vs AI.
+
+-Get game working first. Then build in DOM and styling.
+

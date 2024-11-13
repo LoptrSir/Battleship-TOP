@@ -2,6 +2,8 @@
 //UI actions/manipulations
 //DOMManipulation.js
 
+//import { player1, player2, currentPlayer, currentBoard } from "./1gameboard.js";
+
 export function myFooter() {
   const footer = document.querySelector(".footer");
   footer.style.backgroundColor = "#333";

@@ -2,42 +2,28 @@
 //Gameboard logic
 //gameboard.js
 
-// import { GamePlay } from "./1players.js";
+// import { GamePlay } from "./1gamePlay.js";
 // import { Ship } from "./1ships.js";
 // import { shipsData } from "./1ships.js";
-// import { Players } from "./1players.js";
 
 //Row is looked at before Column. Do I need to change all instances or column/row or just when going to the actual grid?
 
-//$$ comments with //@ likely need tweaking for Players creation
-//@ working on changePlayer and the related p1/2Board updates.
-//@ const currentPlayer = getCurrentPlayer();
-//@ const currentBoard = currentPlayer.playerBoard;
+//How do I manage updating the proper playerGameBoard?
 
-//^&^& IF Players is removed this will be needed
-// const player1 = {
-// name: prompt("Enter name for Player 1"),
-// score: 0,
-// };
-// const player2 = {
-//logic to determine if P2 is ai/player and call name if not ai.
-// name: prompt("Enter name for Player 2"),
-// score: 0,
-// };
-//^&^&
+//@ const currentPlayer = getTurn(); //or eliminate a function call and just call this.getTurn?
+//@ const currentBoard = currentPlayer === 'player1' ? 'player1Board' : 'player2Board';
+
+let player1;
+let player2; //AI
+
+export { player1, player2, currentPlayer, currentBoard };
 
 export class Gameboard {
-  gridSize = 10;
-  constructor(name) {
-    this.player1Board = Array(this.gridSize)
-      .fill(null)
-      .map(() => Array(this.gridSize).fill(null));
-    //figure out logic to display both boards with only the relevant data for each player
-
-    this.player2Board = Array(this.gridSize)
-      .fill(null)
-      .map(() => Array(this.gridSize).fill(null));
-
+  gridSize = 10; //Why isnt this declared?
+  constructor() {
+    this.player1Board = this.makeArray();
+    //figure out logic to display both boards with only the relevant data for each player, with only AI as p2 does this become uneeded?
+    this.player2Board = this.makeArray();
     this.ships = []; //to track board pieces// seems to be redundant with this.board
     this.shipsList = new Set();
     this.numberOfShips = 0;
@@ -45,9 +31,16 @@ export class Gameboard {
     this.sunkShips = 0;
   }
 
+  makeArray() {
+    return Array(this.gridSize)
+    .fill(null)
+    .map(() => Array(this.gridSize).fill(null));
+  }
+
   getPlayer1Board() {
     return this.player1Board;
   }
+
   getPlayer2Board() {
     return this.player2Board;
   }
@@ -69,39 +62,6 @@ export class Gameboard {
     return this.sunkShips;
   }
 
-  //   //chooseShip to gamePlay: build logic to select column/row, orientation
-  //   //remove args from chooseShip as they need to be declared
-  // //   chooseShip(shipName, column, row, orientation) {
-  //     chooseShip() {
-  //         //logic for selecting shipName, col, row, orientation here.
-  //     if (this.shipsList.has(shipName)) {
-  //       throw new Error(`${shipName} has already been placed.`); //f I stay with throw new error: how do I implement a new choice?
-  //       // let response = prompt("has already been placed, enter another ship");
-  //       // return chooseShip(response, column, row, orientation);
-  //     }
-  //     //where is (ship) being declared from?
-  //     const shipDetails = shipsData.find((ship) => ship.name === shipName);
-  //     //console.log(shipName);
-  //     //console.log('chooseShip', shipDetails);
-
-  //     if (!shipsData) {
-  //       throw new Error("Ship not found");
-  //       // let response = prompt("Ship not found enter new ship:");
-  //       // return chooseShip(response, column, row, orientation);
-  //     }
-  //         //passing shipInstance as an argument: How do I break apart the details in resulting call?
-  //     const shipInstance = new Ship(
-  //       shipDetails.name,
-  //       shipDetails.size,
-  //       orientation
-  //     );
-  //     //console.log('shipInstance', shipInstance);
-  //     this.shipsList.add(shipName);
-  //     //console.log('shipsList', this.shipsList);
-  //     return this.processPlaceShip(shipInstance, column, row);
-  //   }
-
-  //   placeShip(ship, column, row) {
   processPlaceShip(ship, column, row) {
     let occupiedCells = [];
 

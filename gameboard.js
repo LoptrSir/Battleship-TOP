@@ -4,12 +4,9 @@
 import { GamePlay } from "./gamePlay.js";
 import { Ship } from "./ships.js";
 import { shipsData } from "./ships.js";
-import { Players } from "./players.js";
 
-//$$ comments with //@ likely need tweaking for Players creation
-//@ working on changePlayer and the related p1/2Board updates.
-//@ const currentPlayer = getCurrentPlayer();
-//@ const currentBoard = currentPlayer.playerBoard;
+
+
 
 export class Gameboard {
   gridSize = 10;

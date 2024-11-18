@@ -10,20 +10,32 @@
 
 //How do I manage updating the proper playerGameBoard?
 
-//@ const currentPlayer = getTurn(); //or eliminate a function call and just call this.getTurn?
-//@ const currentBoard = currentPlayer === 'player1' ? 'player1Board' : 'player2Board';
+ let currentPlayer = getTurn(); 
+//let currentPlayer = instance.getTurn(); //need to declare an instance of GamePlay.
+let currentBoard = gameBoardInstance.boards[currentPlayer];
+let defenderBoard = getDefender(currentPlayer);
+function getDefender(currentPlayer) {
+    return currentPlayer === 'player1' ? 'player2' : 'player1';
+}
+//is there a more efficient manner to update each board?
 
-let player1;
+let player1; //do these actually get used or modified? Or just declared for code flow?
 let player2; //AI
 
-export { player1, player2, currentPlayer, currentBoard };
+export { player1, player2, currentPlayer, currentBoard, defenderBoard };
 
 export class Gameboard {
   gridSize = 10; //Why isnt this declared?
-  constructor() {
+   //*&*&*&  Reference initializeGame()
+  constructor(gamePlayInstance) {
+    this.gamePlay = gamePlayInstance; //*&this is to help tie in instance of a new game from initializeGame()
+    //*&*&
     this.player1Board = this.makeArray();
-    //figure out logic to display both boards with only the relevant data for each player, with only AI as p2 does this become uneeded?
     this.player2Board = this.makeArray();
+    this.boards = {
+        player1: this.player1Board,
+        player2: this.player2Board
+    };
     this.ships = []; //to track board pieces// seems to be redundant with this.board
     this.shipsList = new Set();
     this.numberOfShips = 0;
@@ -194,4 +206,6 @@ export class Gameboard {
     //modify this for gamePlay this.turn
     return this.player1.getTurn() ? player1 : player2;
   }
-}
+}  //END CLASS
+
+

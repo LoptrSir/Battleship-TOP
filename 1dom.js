@@ -2,7 +2,7 @@
 //UI actions/manipulations
 //DOMManipulation.js
 
-//import { player1, player2, currentPlayer, currentBoard } from "./1gameboard.js";
+//import { player1, player2, currentPlayer, currentBoard, defenderBoard } from "./1gameboard.js";
 
 export function myFooter() {
   const footer = document.querySelector(".footer");

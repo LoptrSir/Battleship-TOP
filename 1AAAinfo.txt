@@ -1,6 +1,7 @@
 TOP Battleship project
 The intent is to work on testing using Jest.
 
+11/18  1331: continuing cleaning up gamePlay.js and gameboard.js. Declared GamePlay/Gameboard instances in initializeGame(), introduced gamePlayInstance into Gameboard constructor.
 11/13 1319: cleaned out 1gamePlay, working on 1gambeboard.
 10:09 redux 3.2 Removing playerName, Score, Player2 only using P1 vs AI, Players class. Declared player1/2 in GameBoard.
 11/6 redux 3.1

@@ -3,4 +3,4 @@
 //1ai.js
 
 
-//import { player1, player2, currentPlayer, currentBoard } from "./1gameboard.js";
+//import { player1, player2, currentPlayer, currentBoard, defenderBoard } from "./1gameboard.js";

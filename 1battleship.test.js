@@ -10,7 +10,7 @@ jest.mock("./1dom.js", () => ({
 import { Ship } from "./1ships.js";
 //import { Gameboard } from "./1gameboard.js";
 //import { GamePlay } from "./1gamePlay.js";
-//import { player1, player2, currentPlayer, currentBoard } from "./1gameboard.js";
+//import { player1, player2, currentPlayer, currentBoard, defenderBoard } from "./1gameboard.js";
 
 //***Ship tests
 let testShip;
@@ -26,17 +26,17 @@ it("testShip: name, size, orientation", () => {
   expect(testShip.getSize()).toBe(4);
   expect(testShip.orientation).toBe("vertical");
   expect(testShip.getIsVertical()).toBe(true);
-  expect(testShip.setOrientation("horizontal")).toBe("horizontal");
+  expect(testShip.setOrientation("horizontal")).toBe("horizontal"); // tests this.orientation indirectly
   expect(testShip.getHitCounter()).toBe(0);
-    testShip.increaseHitCount();
-    testShip.increaseHitCount();
-    expect(testShip.getHitCounter()).toBe(2);
-    expect(testShip.getIsSunk()).toBe(false);
-    testShip.increaseHitCount();
-    testShip.increaseHitCount();
-    testShip.increaseHitCount();
-    testShip.increaseHitCount();
-    expect(testShip.getIsSunk()).toBe(true);
+  testShip.increaseHitCount();
+  testShip.increaseHitCount();
+  expect(testShip.getHitCounter()).toBe(2);
+  expect(testShip.getIsSunk()).toBe(false);
+  testShip.increaseHitCount();
+  testShip.increaseHitCount();
+  testShip.increaseHitCount();
+  testShip.increaseHitCount();
+  expect(testShip.getIsSunk()).toBe(true);
 });
 
 //***Gameboard tests

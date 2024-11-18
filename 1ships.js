@@ -1,7 +1,7 @@
 //TOP Battleship Project
 //ships.js
 
-//import { player1, player2, currentPlayer, currentBoard } from "./1gameboard.js";
+//import { player1, player2, currentPlayer, currentBoard, defenderBoard } from "./1gameboard.js";
 
 export const shipsData = [
     { name: "Carrier", size: 5 },
@@ -16,8 +16,8 @@ export const shipsData = [
       this.name = name;
       this.size = size;
       //is this proper orientation setting if instance is created elsewhere?
+      this.orientation = this.setOrientation(orientation);
       // this.orientation = null;
-      this.setOrientation(orientation); //Is this the best option, or declare and update via function when instance is created?
       this.hitCounter = 0;
       this.isSunk = false;
     }
@@ -32,19 +32,21 @@ export const shipsData = [
       return this.size;
     }
   
-    // setOrientation(orientation) {
-    //   //*Jest works
-    //   if (orientation !== "horizontal" && orientation !== "vertical") {
-    //     // throw new Error(
-    //     //   `${orientation} is invalid. Select 'horizontal' of 'vertical'`
-    //     // );  //try/catch block 
-    //    let result = prompt ('Invalid orientation, enter "horizontal"or "vertical"');
-    //    return this.setOrientation(result);
-    //   } else {
-    //     this.orientation = orientation;
-    //     return this.orientation;
-    //   }
-    // }
+    setOrientation(orientation) {
+      //*Jest
+  console.log('orientation', orientation);
+      if (orientation !== "horizontal" && orientation !== "vertical") {
+        alert('Not a valid orientation');
+        // throw new Error(
+        //   `${orientation} is invalid. Select 'horizontal' of 'vertical'`
+        // );  //try/catch block 
+      //  let result = prompt ('Invalid orientation, enter "horizontal"or "vertical"');
+      //  return this.setOrientation(result);
+      } else {
+        this.orientation = orientation;
+        return this.orientation; //return needed for Jest to get result
+      }
+    }
   
     getHitCounter() {
       //*Jest works

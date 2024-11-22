@@ -8,36 +8,41 @@ jest.mock("./1dom.js", () => ({
 }));
 
 import { Ship } from "./1ships.js";
-//import { Gameboard } from "./1gameboard.js";
+//import { gameStateInstance } from ".1gameState.js";
+import { Gameboard } from "./1gameboard.js";
 //import { GamePlay } from "./1gamePlay.js";
-//import { player1, player2, currentPlayer, currentBoard, defenderBoard } from "./1gameboard.js";
+//import { player1, player2, player1Board, player2Board } from "./1gameboard.js";
 
 //***Ship tests
+describe('ship class', () => {
 let testShip;
+let gameBoardMock;
 
 beforeEach(() => {
+  gameBoardMock = {
+    sunkShips: 0
+  };
   testShip = new Ship("testShip", 4, "vertical");
-  // testShip = new Ship("testShip", 4, "badInput");
 });
 
 //- all Ship class tests are in this one test
 it("testShip: name, size, orientation", () => {
-  expect(testShip.getName()).toBe("testShip");
-  expect(testShip.getSize()).toBe(4);
+  expect(testShip.name).toBe("testShip");
+  expect(testShip.size).toBe(4);
   expect(testShip.orientation).toBe("vertical");
-  expect(testShip.getIsVertical()).toBe(true);
-  expect(testShip.setOrientation("horizontal")).toBe("horizontal"); // tests this.orientation indirectly
-  expect(testShip.getHitCounter()).toBe(0);
+  expect(testShip.hitCounter).toBe(0);
   testShip.increaseHitCount();
   testShip.increaseHitCount();
-  expect(testShip.getHitCounter()).toBe(2);
-  expect(testShip.getIsSunk()).toBe(false);
+  expect(testShip.hitCounter).toBe(2);
+  expect(testShip.isSunk).toBe(false);
   testShip.increaseHitCount();
   testShip.increaseHitCount();
   testShip.increaseHitCount();
   testShip.increaseHitCount();
-  expect(testShip.getIsSunk()).toBe(true);
+  expect(testShip.isSunk).toBe(true);
+  //expect(gameBoardMock.sunkShips).toBe(1);
 });
+}); //END ship tests
 
 //***Gameboard tests
 let testBoard;

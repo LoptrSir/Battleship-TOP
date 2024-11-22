@@ -5,37 +5,42 @@
 // import { GamePlay } from "./1gamePlay.js";
 // import { Ship } from "./1ships.js";
 // import { shipsData } from "./1ships.js";
+//import { gameStateInstance } from ".1gameState.js";
 
 //Row is looked at before Column. Do I need to change all instances or column/row or just when going to the actual grid?
 
 //How do I manage updating the proper playerGameBoard?
 
- let currentPlayer = getTurn(); 
-//let currentPlayer = instance.getTurn(); //need to declare an instance of GamePlay.
-let currentBoard = gameBoardInstance.boards[currentPlayer];
-let defenderBoard = getDefender(currentPlayer);
-function getDefender(currentPlayer) {
-    return currentPlayer === 'player1' ? 'player2' : 'player1';
-}
+
+ //let currentPlayer = getTurn(); //REMOVE as below
+//replace currentPlayer with a direct call of instance.getTurn() when needed. this eliminate runtime error of calling getTurn() before its initialized. 
+
+
+//Migrate currentBoard/defenderBoard into a constructor.
+// let currentBoard = gameBoardInstance.boards[currentPlayer];
+// let defenderBoard = getDefender(currentPlayer);
+// function getDefender(currentPlayer) {
+//     return currentPlayer === 'player1' ? 'player2' : 'player1';
+// }
 //is there a more efficient manner to update each board?
 
 let player1; //do these actually get used or modified? Or just declared for code flow?
+let player1Board;
 let player2; //AI
+let player2Board;
 
-export { player1, player2, currentPlayer, currentBoard, defenderBoard };
+export { player1, player2, player1Board, player2Board };
 
 export class Gameboard {
-  gridSize = 10; //Why isnt this declared?
-   //*&*&*&  Reference initializeGame()
-  constructor(gamePlayInstance) {
-    this.gamePlay = gamePlayInstance; //*&this is to help tie in instance of a new game from initializeGame()
-    //*&*&
-    this.player1Board = this.makeArray();
-    this.player2Board = this.makeArray();
-    this.boards = {
-        player1: this.player1Board,
-        player2: this.player2Board
-    };
+  gridSize = 10; //explore best location to declare.
+  constructor() {
+    // this.player1Board = this.makeArray();
+    // this.player2Board = this.makeArray();
+    // this.boards = {
+    //     player1: this.player1Board,
+    //     player2: this.player2Board
+    // };
+    this.board = this.makeArray(); //If I need to access the board elsewhere, doesnt calling this.board trigger a new makeArray?
     this.ships = []; //to track board pieces// seems to be redundant with this.board
     this.shipsList = new Set();
     this.numberOfShips = 0;
@@ -49,30 +54,31 @@ export class Gameboard {
     .map(() => Array(this.gridSize).fill(null));
   }
 
-  getPlayer1Board() {
-    return this.player1Board;
-  }
-
-  getPlayer2Board() {
-    return this.player2Board;
-  }
-
+//$#replace with direct call
   getShipsList() {
     return this.shipsList;
   }
-
+//$#replace with direct call
   getNumberOfShips() {
     return this.numberOfShips;
   }
-
+//$#replace with direct call
   getMissedShots() {
     //is this redundant if this.board tracks atacked?
     return this.missedShots;
   }
-
+//$#replace with direct call
   getSunkShips() {
     return this.sunkShips;
   }
+
+  getDefenderBoard() {
+    return this.gamePlay.turn === 'player1' ? 'player2' : 'player1';
+}
+
+getCurrentBoard() {
+    return this.boards[this.gamePlay.turn];
+}
 
   processPlaceShip(ship, column, row) {
     let occupiedCells = [];
@@ -202,10 +208,7 @@ export class Gameboard {
     return manageShotResult(result);
   }
 
-  getCurrentPlayer() {
-    //modify this for gamePlay this.turn
-    return this.player1.getTurn() ? player1 : player2;
-  }
+
 }  //END CLASS
 
 

@@ -6,6 +6,19 @@ The intent is to not follow my instinct to overly complicate the game by adding 
 -NOT tracking player names.
 -NOT tracking scores.
 -Only Human vs AI.
-
 -Get game working first. Then build in DOM and styling.
+
+****DO these
+- declaring this.board = this.makeArray. How do I call the board instance? without triggering a new board.
+
+-replace all calls of getX() with a direct call of the constructor target.
+
+-rework Jest tests for new class calls as relevant. IE: increaseHitCount() gameboard.sunkShips++
+
+-replace gameboard instance calls with relevant GameState element.
+
+-Created GameState class to hold all class instance that need to be accessible outside of their class.  initializeGame will call this to create relevant instances.
+
+-//what classes do I need to import other classes into? IE: gamePlayInstance in Gambeboard.//
+
 

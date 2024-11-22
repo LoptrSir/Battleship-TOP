@@ -5,7 +5,8 @@
 // import { minSatisfying } from "semver"; //checks if version satisfies version range returning the minimum satisfactory version.
 
 import { Gameboard } from "./1gameboard.js";
-import { player1, player2, currentPlayer, currentBoard, defenderBoard } from "./1gameboard.js";
+import { player1, player2, player1Board, player2Board } from "./1gameboard.js";
+import { gameStateInstance } from ".1gameState.js";
 
 // //%Might not use below as gobal declaration not most efficient method.
 // //const newGame = new GamePlay(); //create instance and this is out of place
@@ -18,15 +19,15 @@ export class GamePlay {
     this.turn = null; //does test still work?
     this.gameWon = false; //useful for preventing further actions, trigger DOM actions, trigger new game routine
   }
-
-  getTurn() {
-    return this.turn;
-  }
+//@#$ BEGIN replace all calls of getX() with a direct call of the constructor target.
+//   getTurn() {
+//     return this.turn;
+//   }
 
   getGameWon() {
     return this.gameWon;
   }
-
+//@#$ END
   processGameWon() {
     if (this.gameWon === true) {
       //announce winner logic/function call
@@ -77,6 +78,8 @@ export class GamePlay {
   //   //update this.ships with shipInstance? OR is this done in processPlaceShip()?
   //  //Use the below return or simply make a call for this.processPlaceShip?
   //     return this.processPlaceShip(shipInstance, column, row);
+
+  //logic to check if all ships are placed, call placeShip if not and pass back to initializeGame to prompt P2 placeShip if true.
   //   } //END placeShip()
 
 
@@ -84,14 +87,14 @@ export class GamePlay {
 // takeTurn() {
 //update this.turn in manageShotResult? 
 //if (this.gameWon() === true) //{return gameWon/Over()
-//} else {prompt currentPlayer to initiateAttack()} 
-//What about accessing gameBoard? managed by currentBoard?
+//} else {prompt currentPlayer/this.turn to initiateAttack()} 
+//What about accessing gameBoard? managed by getCurrentBoard()?
 //}
 
 
 
   //initiateAttack() {
-    //announce currentPlayer take your turn. Or just modify prompts for col/row?
+    //announce currentPlayer/this.turn take your turn. Or just modify prompts for col/row?
     //How to determine correct Gameboard to attack?
     //accepts attack coordinates then calls gameBoardInstance.processAttack()
     // const column = Number(prompt('Enter column:'));
@@ -116,10 +119,10 @@ export class GamePlay {
 //         advanceTurn;
 //     } else if( result === 'hit') {
 //         ship.increaseHitCount(); 
-//         //logic to determine if hitCount >= sunk and updaing isSunk()
+//         //logic to determine if hitCount >= sunk and updating isSunk()
 //         if (ship.hitCounter >= ship.size) {
 //             ship.isSunk = true;
-//             //need to modify for correct gameboard
+//             //need to modify for correct gameboard instance
 //             gameBoardInstance.sunkShips++;
 //         }
 //         if (ship.getIsSunk() === true)
@@ -132,15 +135,15 @@ export class GamePlay {
 //            return `You sank my ${this.ship}`; 
 //         }
     //}
-    // // this.turn = getTurn() === 'player1' ? 'player2' : 'player1'; //if using takeTurn
+    // // this.turn = this.turn === 'player1' ? 'player2' : 'player1'; //if using takeTurn
     //advanceTurn()/takeTurn() 
   //}  //END manageShotResult()
 
 
 
 //   advanceTurn(turnValue) {
-//     //using getTurn() with a ternary operator?
-// this.turn = getTurn() === 'player1' ? 'player2' : 'player1';
+//     //using this.turn with a ternary operator?
+// this.turn = this.turn === 'player1' ? 'player2' : 'player1';
 // validate turn updated?
 
 // call initiateAttack()
@@ -160,28 +163,31 @@ export class GamePlay {
 } //END Class 
 
 
-//*&*&migrate this inside GamePlay??
+//*&*&BEGIN migrate this inside GamePlay class?? Seems it is better here.
 export function initializeGame() {
 //*&*&*& new logic
-const gamePlayInstance = new GamePlay();
-const gameBoardInstance = new Gameboard(gamePlayInstance);
+gameStateInstance.player1Board.initializeBoards();
+gameStateInstance.player2Board.initializeBoards();
+gameStateInstance.gamePlay.turn = player1;
+//prompt P1 placeShip as below
+//gameStateInstance.gamePlay.placeShip();
+//Once P1 has placed all ships update below gameStateInstance.gamePlay.turn = player2; 
+//prompt P2 to placeShip(); //How to modify this since AI wont need to be prompted.
+//update turn to P1 as below
+//gameStateInstance.gamePlay.turn = player1;
+//prompt Player1 this.takeTurn()
 
 //*&*&*& END new logic
 
 
-  //   player1 = new GamePlay();
-  //   player1.setTurn = true; //use this or use this.turn = player1?
-  //   player2 = new GamePlay();
-  //   player2.setTurn = false; //remove if using this.turn = player1
 
-  //prompt Player1 to place ships //logic to advance to P2 once all ships are placed. IE: if (this.ships >= 5) placeShip(P2);
-  //prompt Player2 to place ships, once all 5 are placed call this.takeTurn()
 
-  // //$%$% for testing purposes
+
+  // //$%$% BEGIN for testing purposes
   player1.playerBoard.chooseShip("Destroyer", 0, 0, "vertical");
   player1.playerBoard.chooseShip("Carrier", 1, 2, "horizontal");
   //   player2.playerBoard.chooseShip("Destroyer", 3, 3, "vertical");
   //   player2.PlayerBoard.chooseShip("Carrier", 6, 2, "horizontal");
   console.log("initialize: P1", player1, "P2", player2);
-  //  //$%$% end
+  //  //$%$% END
 }

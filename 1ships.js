@@ -1,7 +1,8 @@
 //TOP Battleship Project
 //ships.js
 
-//import { player1, player2, currentPlayer, currentBoard, defenderBoard } from "./1gameboard.js";
+//import { gameStateInstance } from ".1gameState.js";
+//import { player1, player2, player1Board, player2Board } from "./1gameboard.js"; 
 
 export const shipsData = [
     { name: "Carrier", size: 5 },
@@ -11,56 +12,15 @@ export const shipsData = [
     { name: "Destroyer", size: 2 },
   ];
   
+  //since Gameboard.sunkShips needs to be updated. Do I add an instanceGameBoard to constructor IE: look at Gameboard this.gamePlay
   export class Ship {
-    constructor(name, size, orientation) {
+    constructor(name, size, orientation, gameBoardInstance ) {
+      this.gameboard = gameBoardInstance;
       this.name = name;
       this.size = size;
-      //is this proper orientation setting if instance is created elsewhere?
-      this.orientation = this.setOrientation(orientation);
-      // this.orientation = null;
+      this.orientation = orientation;
       this.hitCounter = 0;
       this.isSunk = false;
-    }
-  
-    getName() {
-      //*Jest works
-      return this.name;
-    }
-  
-    getSize() {
-      //*Jest works
-      return this.size;
-    }
-  
-    setOrientation(orientation) {
-      //*Jest
-  console.log('orientation', orientation);
-      if (orientation !== "horizontal" && orientation !== "vertical") {
-        alert('Not a valid orientation');
-        // throw new Error(
-        //   `${orientation} is invalid. Select 'horizontal' of 'vertical'`
-        // );  //try/catch block 
-      //  let result = prompt ('Invalid orientation, enter "horizontal"or "vertical"');
-      //  return this.setOrientation(result);
-      } else {
-        this.orientation = orientation;
-        return this.orientation; //return needed for Jest to get result
-      }
-    }
-  
-    getHitCounter() {
-      //*Jest works
-      return this.hitCounter;
-    }
-  
-    getIsSunk() {
-      //*Jest works
-      return this.isSunk;
-    }
-  
-    getIsVertical() {
-      //*Jest works
-      return this.orientation === "vertical";
     }
   
     increaseHitCount() {
@@ -68,8 +28,11 @@ export const shipsData = [
       this.hitCounter++;
       if (this.hitCounter >= this.size) {
         this.isSunk = true;
-        //update total sunk ships
-        //call isGameWon() //here or in manageShotResult()?
+        // //*below causes Jest to fail* Need to mock external classes
+        // this.gameboard.sunkShips++; 
+        // if (this.gameboard.isSunk >= 5) {
+        //   //call gameWon logic here or in manageShotResult()?
+        // }
       }
     }
   }

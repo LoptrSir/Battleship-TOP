@@ -1,6 +1,18 @@
 TOP Battleship project
 The intent is to work on testing using Jest.
 
+11/22 1423:
+working on placeShip logic.
+12:15 changing GameState from 
+ removing gamePlayInstance from:
+this.gameboard = new Gameboard();
+TO
+this.player1Board = new Gameboard();
+this.player2Board = new Gameboard();
+This is makes tracking Gameboard elements per player. initializeGame() modified to match this.
+
+11/19 12:10 Gameboard. Instead created GameState class to manage instances of all classes that need to be accessed outside themselves.
+1131: removed getFunctions() that just return this.element with a direct call, updated Jest to match.  Changed currentPlayer/Board instances to references in the constructors and functions to manipulate that data, this eliminates risk or runtime errors.
 11/18  1331: continuing cleaning up gamePlay.js and gameboard.js. Declared GamePlay/Gameboard instances in initializeGame(), introduced gamePlayInstance into Gameboard constructor.
 11/13 1319: cleaned out 1gamePlay, working on 1gambeboard.
 10:09 redux 3.2 Removing playerName, Score, Player2 only using P1 vs AI, Players class. Declared player1/2 in GameBoard.
